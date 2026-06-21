@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>低血鈉症診斷與治療流程</title>
+  <meta name="description" content="低血鈉症診斷、鑑別診斷與治療策略的逐步互動流程工具。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <aside class="rail" aria-label="流程進度">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div>
+          <h1>Hyponatremia Navigator</h1>
+          <p>診斷到治療的逐步臨床流程</p>
+        </div>
+      </div>
+
+      <ol id="stepList" class="steps"></ol>
+
+      <section class="status-panel" aria-live="polite">
+        <div>
+          <span class="label">目前判讀</span>
+          <strong id="statusHeadline">等待第一步資料</strong>
+        </div>
+        <p id="statusDetail">輸入臨床症狀與發病時間後，流程會自動進入低血鈉確認。</p>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Clinical decision support</p>
+          <h2 id="stepTitle">臨床症狀與急迫性</h2>
+        </div>
+        <div class="toolbar">
+          <button id="resetBtn" class="icon-button" type="button" title="重新開始" aria-label="重新開始">
+            <span aria-hidden="true">↺</span>
+          </button>
+          <button id="copyBtn" class="icon-button" type="button" title="複製摘要" aria-label="複製摘要">
+            <span aria-hidden="true">⧉</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="flow-stage">
+        <div class="visual-strip" aria-hidden="true">
+          <div class="tube">
+            <span class="drop"></span>
+            <span class="drop"></span>
+            <span class="drop"></span>
+          </div>
+          <div class="wave"></div>
+          <div class="axis">
+            <span>Serum Osm</span>
+            <span>Urine Osm</span>
+            <span>Urine Na</span>
+            <span>Treatment</span>
+          </div>
+        </div>
+
+        <form id="wizardForm" class="form-panel" novalidate></form>
+      </div>
+
+      <section class="insight-grid">
+        <article class="hint-box">
+          <h3>提示欄位</h3>
+          <div id="hintText"></div>
+        </article>
+        <article class="result-box">
+          <h3>即時摘要</h3>
+          <pre id="liveSummary"></pre>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <template id="fieldTemplate">
+    <label class="field">
+      <span class="field-label"></span>
+      <span class="field-control"></span>
+      <small class="field-help"></small>
+    </label>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
