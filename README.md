@@ -10,12 +10,21 @@
 
 ## 內容重點
 
-- 低血鈉嚴重度與急慢性分類
+- 低血鈉嚴重度與急慢性分類（症狀勾選可自動升級嚴重度，嘔吐屬嚴重）
+- 校正鈉（Hillier 2.4）、有效滲透壓（扣除 BUN）、Furst ratio、Adrogué–Madias 預估
+- 治療後血鈉追蹤：自動判斷是否接近或超過校正上限
 - 非低張性/偽性低血鈉排除
 - urine osmolality 與 urine sodium 導向式鑑別
 - hypovolemic/euvolemic/hypervolemic 流程
 - SIADH、CSW、HF、低溶質攝取、利尿劑與內分泌原因
 - hypertonic saline、限水、tolvaptan/Samsca 與過度校正預防
+
+## 開發
+
+- 臨床引擎在 `app.js` 的 `/*ENGINE-START*/…/*ENGINE-END*/`（純函式，無 DOM）。
+- 測試：`node tests.cjs`
+- 改版時同步更新 `index.html` 內 `app.js?v=`、`styles.css?v=` 版本號。
+- 依據：ESE/ERA-EDTA 2014 Clinical Practice Guideline on hyponatraemia、2013 US Expert Panel（Verbalis）。
 
 ## 注意
 
