@@ -94,6 +94,11 @@ t('tolvaptan: cirrhosis / contra / severe / hypovolemic', () => {
   assert.match(HN.plan({ ...siadh, tolvaptanContra: ['無尿'] }).join('\n'), /不建議/);
   assert.doesNotMatch(HN.plan({ ...siadh, urineNa: '10', volumeStatus: '低容積' }).join('\n'), /Tolvaptan/);
 });
+t('tolvaptan dose follows label, 7.5 mg flagged off-label', () => {
+  const p = HN.plan(siadh).join('\n');
+  assert.match(p, /仿單起始 15 mg\/day（7\.5 mg 屬 off-label/);
+  assert.doesNotMatch(p, /7\.5–15/);
+});
 t('availability note', () => {
   assert.match(HN.plan({ ...siadh, symptomSeverity: '嚴重症狀', availableTherapy: ['限水'] }).join('\n'), /3% NaCl 150 mL IV over 20 min（約|3% NaCl 150 mL IV over 20 min，|未勾選可用/);
 });

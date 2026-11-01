@@ -213,7 +213,7 @@ const HN = (() => {
       if (sev.level === 2) p.push('Tolvaptan：嚴重症狀需 3% 快速處理，此時不用 tolvaptan。');
       else if (cirrhosis) p.push('Tolvaptan：肝硬化/肝病風險，FDA 警示避免使用。');
       else if (contra.length) p.push(`Tolvaptan：有禁忌/限制（${contra.join('、')}），不建議。`);
-      else p.push(`Tolvaptan${avail(s, 'tolvaptan/Samsca')}：可評估於 dilutional 低血鈉（ESE 不建議 SIADH 常規使用，US panel 可用）；住院起始 7.5–15 mg/day，首 24h 不限水，q6–8h 驗 Na，用 ≤30 天。`);
+      else p.push(`Tolvaptan${avail(s, 'tolvaptan/Samsca')}：可評估於 dilutional 低血鈉（ESE 不建議 SIADH 常規使用，US panel 可用）；須住院起始，仿單起始 15 mg/day（7.5 mg 屬 off-label，仍可能過度校正），首 24h 不限水，q6–8h 驗 Na，用 ≤30 天。`);
     }
     // 校正速率
     p.push(`校正速率：${lim.goal}；${lim.limit}${lim.high ? '（ODS 高風險）' : ''}。`);
