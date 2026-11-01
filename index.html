@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>低血鈉症診斷與治療流程</title>
   <meta name="description" content="低血鈉症診斷、鑑別診斷與治療策略的逐步互動流程工具。">
-  <link rel="stylesheet" href="styles.css?v=2.0">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <link rel="stylesheet" href="teach.css?v=2.1">
 </head>
 <body>
-  <main class="shell">
+  <nav class="view-tabs" aria-label="頁面分頁">
+    <button type="button" id="tab-tool" class="active" data-view="tool" aria-current="page">決策流程</button>
+    <button type="button" id="tab-cases" data-view="cases" aria-current="false">示範病例 8</button>
+    <button type="button" id="tab-quiz" data-view="quiz" aria-current="false">考題 20</button>
+    <button type="button" id="tab-map" data-view="map" aria-current="false">心智圖</button>
+  </nav>
+
+  <main class="shell" id="view-tool">
     <aside class="rail" aria-label="流程進度">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">
@@ -35,6 +43,10 @@
     </aside>
 
     <section class="workspace">
+      <div class="demo-banner" id="demoBanner" hidden>
+        <span id="demoBannerText"></span>
+        <button type="button" id="demoClear">清除示範資料</button>
+      </div>
       <header class="topbar">
         <div>
           <p class="eyebrow">Clinical decision support</p>
@@ -82,6 +94,45 @@
     </section>
   </main>
 
-  <script src="app.js?v=2.0"></script>
+  <section class="teach-view" id="view-cases" hidden>
+    <h2 class="view-title">示範病例 8</h2>
+    <p class="view-intro">虛構病例。先讀題幹自己判讀，再展開看工具計算結果與處置思路；數字由本頁引擎即時算出，可載入決策流程逐步檢視。</p>
+    <div id="caseList"></div>
+    <section class="source-box">
+      <h3>參考文獻</h3>
+      <ol class="source-list" id="sourceList"></ol>
+    </section>
+  </section>
+
+  <section class="teach-view" id="view-quiz" hidden>
+    <h2 class="view-title">考題 20</h2>
+    <p class="view-intro">基礎 10 題、高階 10 題，單選。答案不會儲存，重新整理即清空。</p>
+    <div class="quiz-bar">
+      <div class="quiz-filter" id="quizFilter">
+        <button type="button" data-filter="全部" aria-pressed="true">全部</button>
+        <button type="button" data-filter="基礎" aria-pressed="false">基礎</button>
+        <button type="button" data-filter="高階" aria-pressed="false">高階</button>
+      </div>
+      <div class="quiz-score-wrap">
+        <span id="quizScore"></span>
+        <button type="button" id="quizReset">重新作答</button>
+      </div>
+    </div>
+    <div id="quizList"></div>
+  </section>
+
+  <section class="teach-view wide" id="view-map" hidden>
+    <h2 class="view-title">診斷與治療心智圖</h2>
+    <p class="view-intro">由中心往外讀；點分支標題可收合。數值與決策流程使用同一套依據。</p>
+    <div class="map-actions">
+      <button type="button" data-map-all="open">全部展開</button>
+      <button type="button" data-map-all="close">全部收合</button>
+    </div>
+    <div class="map-body" id="mapBody"></div>
+  </section>
+
+  <script src="app.js?v=2.1"></script>
+  <script src="teach-content.js?v=2.1"></script>
+  <script src="teach.js?v=2.1"></script>
 </body>
 </html>

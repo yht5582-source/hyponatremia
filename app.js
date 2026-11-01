@@ -430,7 +430,23 @@ if (typeof document !== 'undefined') (() => {
 
   $('#resetBtn').onclick = () => {
     if (Object.keys(state).length && !confirm('清除所有已填資料並重新開始？')) return;
-    state = {}; go(0);
+    state = {}; setDemo(''); go(0);
+  };
+  // 示範病例載入：teach.js 呼叫。覆蓋使用者自己填的資料前先確認，切換示範病例則不必問。
+  const setDemo = title => { store.set('hyponatremiaDemo', title); document.dispatchEvent(new Event('hn-demo-change')); };
+  let loadedDemo = store.get('hyponatremiaDemo', '') ? JSON.stringify(state) : '';
+  window.HNWizard = {
+    demo: () => store.get('hyponatremiaDemo', ''),
+    load(s, title) {
+      const own = Object.keys(state).length && JSON.stringify(state) !== loadedDemo;
+      if (own && !confirm('載入示範病例會覆蓋目前已填資料，要繼續嗎？')) return false;
+      state = JSON.parse(JSON.stringify(s));
+      loadedDemo = JSON.stringify(state);
+      cur = steps.length - 1;
+      save(); setDemo(title); render();
+      return true;
+    },
+    clear() { state = {}; setDemo(''); go(0); }
   };
   $('#copyBtn').onclick = async () => {
     const text = $('#liveSummary').textContent, btn = $('#copyBtn');

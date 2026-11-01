@@ -103,4 +103,46 @@ t('monitoring mismatch warning', () => {
 t('3% dose by weight', () => {
   assert.match(HN.plan({ ...siadh, weight: '50', symptomSeverity: '嚴重症狀' }).join('\n'), /≈ 100 mL/);
 });
+// 教學內容：病例數字與考題計算一律回頭對引擎
+const { SOURCES, CASES, QUIZ, MAP } = require('./teach-content.js');
+const REQUIRED = ['age', 'sex', 'onset', 'symptomSeverity', 'symptoms', 'serumNa', 'glucose', 'serumOsm', 'pseudoRisk', 'urineOsm', 'fluidIntake', 'urineNa', 'volumeStatus', 'edemaSigns', 'lossSigns', 'kidneyFunction', 'thyroid', 'adrenal', 'diuretics', 'medications', 'imaging', 'odsRisk', 'availableTherapy', 'tolvaptanContra', 'monitoring'];
+t('8 cases, unique ids, all sources defined', () => {
+  assert.strictEqual(CASES.length, 8);
+  assert.strictEqual(new Set(CASES.map(c => c.id)).size, 8);
+  [...CASES, ...QUIZ].forEach(x => { assert.ok(x.src.length); x.src.forEach(k => assert.ok(SOURCES[k], k)); });
+});
+CASES.forEach(c => t(`case ${c.id} matches engine`, () => {
+  const s = c.base, x = c.expect;
+  REQUIRED.forEach(k => assert.ok(s[k] !== undefined && s[k] !== '', `${c.id} missing ${k}`));
+  assert.ok(HN.classify(s).startsWith(x.classify), HN.classify(s));
+  assert.strictEqual(HN.tonicity(s).key, x.tonicity);
+  assert.strictEqual(HN.etiology(s).key, x.etiology);
+  assert.strictEqual(HN.severity(s).level, x.sevLevel);
+  if ('chronic' in x) assert.strictEqual(HN.rateLimits(s).chronic, x.chronic);
+  if ('max24' in x) assert.strictEqual(HN.rateLimits(s).max24, x.max24);
+  if ('odsHigh' in x) assert.strictEqual(HN.odsHigh(s), x.odsHigh);
+  if ('tbw' in x) assert.strictEqual(HN.tbw(s), x.tbw);
+  if ('d3' in x) assert.strictEqual(HN.adrogue(s, 513), x.d3);
+  if ('dns' in x) assert.strictEqual(HN.adrogue(s, 154), x.dns);
+  if ('furst' in x) assert.strictEqual(HN.furst(s), x.furst);
+  if ('cna' in x) assert.strictEqual(HN.correctedNa(s), x.cna);
+  if ('eff' in x) assert.strictEqual(HN.effectiveOsm(s), x.eff);
+  if ('follow' in x) { assert.strictEqual(HN.followUp(s).status, x.follow); assert.strictEqual(HN.followUp(s).delta, x.delta); }
+}));
+t('non-hypotonic case does not get 3%', () => assert.doesNotMatch(HN.plan(CASES.find(c => c.id === 'hhs').base).join('\n'), /3% NaCl 150/));
+t('quiz: 20 items, 10+10, A–D 5 each, 4 options', () => {
+  assert.strictEqual(QUIZ.length, 20);
+  assert.strictEqual(QUIZ.filter(q => q.level === '基礎').length, 10);
+  assert.strictEqual(QUIZ.filter(q => q.level === '高階').length, 10);
+  [0, 1, 2, 3].forEach(a => assert.strictEqual(QUIZ.filter(q => q.answer === a).length, 5));
+  QUIZ.forEach(q => assert.strictEqual(q.options.length, 4));
+});
+const CALC = {
+  correctedNa: HN.correctedNa, furst: HN.furst, effectiveOsm: HN.effectiveOsm,
+  adrogue513: s => HN.adrogue(s, 513),
+  followUpStatus: s => HN.followUp(s).status,
+  etiologyKey: s => HN.etiology(s).key
+};
+QUIZ.filter(q => q.calc).forEach(q => t(`quiz calc: ${q.calc.fn}`, () => assert.strictEqual(CALC[q.calc.fn](q.calc.input), q.calc.value)));
+t('map: 8 branches', () => { assert.strictEqual(MAP.branches.length, 8); MAP.branches.forEach(b => assert.ok(b.leaves.length >= 5)); });
 console.log(`${pass} tests passed`);

@@ -18,12 +18,14 @@
 - hypovolemic/euvolemic/hypervolemic 流程
 - SIADH、CSW、HF、低溶質攝取、利尿劑與內分泌原因
 - hypertonic saline、限水、tolvaptan/Samsca 與過度校正預防
+- 教學分頁：示範病例 8（可載入決策流程）、考題 20（基礎 10、高階 10）、診斷與治療心智圖
 
 ## 開發
 
 - 臨床引擎在 `app.js` 的 `/*ENGINE-START*/…/*ENGINE-END*/`（純函式，無 DOM）。
+- 教學內容在 `teach-content.js`（SOURCES/CASES/QUIZ/MAP），畫面在 `teach.js`、`teach.css`；病例數字由引擎即時計算，`expect` 與考題 `calc` 由測試核對。
 - 測試：`node tests.cjs`
-- 改版時同步更新 `index.html` 內 `app.js?v=`、`styles.css?v=` 版本號。
+- 改版時同步更新 `index.html` 內所有 `?v=` 版本號（app.js、styles.css、teach-content.js、teach.js、teach.css）。
 - 依據：ESE/ERA-EDTA 2014 Clinical Practice Guideline on hyponatraemia、2013 US Expert Panel（Verbalis）。
 
 ## 注意
