@@ -77,6 +77,8 @@
 .mm-right .mm-branch ul{padding-left:34px}
 /* details 內容在 Chromium 預設為 display:contents 外的區塊，flex 需要讓 ul 與 summary 同列 */
 .mm-branch::details-content{display:contents}
+/* display:contents 會蓋掉瀏覽器原本的收合，要自己隱藏 */
+.mm-branch:not([open]) ul{display:none!important}
 @media(max-width:900px){
   .mm-lines{display:none}
   .map-body{grid-template-columns:1fr;gap:14px}
